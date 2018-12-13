@@ -6,10 +6,12 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import pkgApp.RetirementApp;
 import pkgCore.Retirement;
 
@@ -54,13 +56,11 @@ public class RetirementController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
-		SpinnerValueFactory<Double> spnrAnnualReturnWorkingFactory = new SpinnerValueFactory.DoubleSpinnerValueFactory(0.00, 1.00, 0.00, 0.01);
+		SpinnerValueFactory<Double> spnrAnnualReturnWorkingFactory = new SpinnerValueFactory.DoubleSpinnerValueFactory(0.00, 0.20, 0.00, 0.01);
 		spnrAnnualReturnWorking.setValueFactory(spnrAnnualReturnWorkingFactory);
 		
-		SpinnerValueFactory<Double> spnrAnnualReturnRetiredFactory = new SpinnerValueFactory.DoubleSpinnerValueFactory(0.00, 1.00, 0.00, 0.01);
+		SpinnerValueFactory<Double> spnrAnnualReturnRetiredFactory = new SpinnerValueFactory.DoubleSpinnerValueFactory(0.00, 0.03, 0.00, 0.01);
 		spnrAnnualReturnRetired.setValueFactory(spnrAnnualReturnRetiredFactory);
-		
-		
 	}
 	
 	@FXML
@@ -80,8 +80,32 @@ public class RetirementController implements Initializable {
 
 	}
 	
+	
+	
+	
+	@FXML
+	public void validateTextEntry() {
+		
+		try {
+		Double dYTW = Double.parseDouble(txtYearsToWork.getText());
+		Double dYR = Double.parseDouble(txtYearsRetired.getText());
+		Double dRI = Double.parseDouble(txtRequiredIncome.getText());
+		Double dMSSI = Double.parseDouble(txtMonthlySSI.getText());
+		
+		} catch(NumberFormatException e) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error");
+			alert.setHeaderText("One or more errors found");
+			alert.setContentText("Make sure all inputs are numbers and are not empty");
+
+			alert.showAndWait();
+		}
+	}
+	
 	@FXML
 	public void btnCalculate(ActionEvent event) {
+		
+		validateTextEntry();
 		
 		Retirement rtm = new Retirement();
 		rtm.setiYearsToWork(Integer.parseInt(txtYearsToWork.getText()));

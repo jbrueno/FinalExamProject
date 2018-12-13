@@ -43,7 +43,7 @@ public class RetirementApp extends Application {
 			primaryStage.show();
 			
 
-		} catch (IOException e) {
+		} catch (IOException e) { 
 			e.printStackTrace();
 		}
 		
